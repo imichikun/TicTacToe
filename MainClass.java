@@ -7,8 +7,9 @@ public class MainClass {
     static int[][] arrayMock = new int[][] { {1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     static String[][] array = new String[][] { {".", ".", "."}, {".", ".", "."}, {".", ".", "."}};
     static boolean gameOver = false;
+    static boolean player1Wins = true;
 
-    static String PLAYER1 = "Rust";
+    static String PLAYER1 = "";
     static String PLAYER2 = "Computer";
 
     public static MainClass mainClass;
@@ -18,8 +19,8 @@ public class MainClass {
         mainClass = new MainClass();
         gameClass = new GameClass();
         System.out.print("Пожайлуста, введите своё имя: ");
-//        enterName();
-        System.out.println("Первому игроку " + PLAYER1 + " приготовиться!");
+        UtilClass.enterName();
+        System.out.println("Первому игроку, " + PLAYER1 + ", приготовиться!");
 
         System.out.println("Вы играете крестиками, сделайте свой ход на клетку от 1 до 9");
         Arrays.stream(arrayMock).forEach(elem -> System.out.println(Arrays.toString(elem)));

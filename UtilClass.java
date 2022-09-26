@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Random;
+
+import static TicTacToe.MainClass.array;
+import static TicTacToe.MainClass.PLAYER1;
 
 public class UtilClass {
-    static String PLAYER1;
-
     static void enterName() {
         String name = "No name";
 
@@ -21,7 +23,29 @@ public class UtilClass {
         PLAYER1 = name;
     }
 
-    void showGameResults(){
-        Arrays.stream(array).forEach(elem -> System.out.println(Arrays.toString(elem)));
+    static int computerCalculateMove() {
+        int random = new Random().nextInt(3);
+
+        switch(random){
+            case 0 : if ( !array[0][0].equals(".") )
+                        computerCalculateMove();
+                     else {
+                        array[0][0] = "O";
+                        break;
+                     }
+
+            case 1 : if ( !array[0][2].equals(".") )
+                computerMove();
+            case 2 : if ( !array[2][0].equals(".") )
+                computerMove();
+            case 3 : if ( !array[2][2].equals(".") )
+                computerMove();
+        }
+
+    }
+
+    static void showGameResults(){
+        for(String[] arrayElem: array)
+            System.out.println(Arrays.toString(arrayElem));
     }
 }

@@ -3,40 +3,46 @@ package TicTacToe;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Random;
 
+import static TicTacToe.MainClass.*;
+import static TicTacToe.UtilClass.showGameResults;
+
 public class GameClass {
-    static String[][] array = new String[][] { {".", ".", "."}, {".", ".", "."}, {".", ".", "."}};
-    static boolean gameOver = false;
+    static BufferedReader reader;
 
     void playerMove() throws IOException {
-        int number = 0;
-
-        try (BufferedReader reader2 = new BufferedReader(new InputStreamReader(System.in)))
-        {
-            String move = reader2.readLine();
-            number = checkTheEnteredNumber(Integer.parseInt(move));
-        } catch (IOException e){
-            System.out.println("Ошибка ввода хода");
-            e.printStackTrace();
-        }
+        System.out.print("Введите свой ход: ");
+        int number = enterNextMove();
 
         switch(number){
-            case 1 -> checkIfCellIsEmpty(array[0], 0);
-            case 2 -> checkIfCellIsEmpty(array[0], 1);
-            case 3 -> checkIfCellIsEmpty(array[0], 2);
-            case 4 -> checkIfCellIsEmpty(array[1], 0);
-            case 5 -> checkIfCellIsEmpty(array[1], 1);
-            case 6 -> checkIfCellIsEmpty(array[1], 2);
-            case 7 -> checkIfCellIsEmpty(array[2], 0);
-            case 8 -> checkIfCellIsEmpty(array[2], 1);
-            case 9 -> checkIfCellIsEmpty(array[2], 2);
+            case 1 : checkIfCellIsEmpty(array[0], 0);
+            case 2 : checkIfCellIsEmpty(array[0], 1);
+            case 3 : checkIfCellIsEmpty(array[0], 2);
+            case 4 : checkIfCellIsEmpty(array[1], 0);
+            case 5 : checkIfCellIsEmpty(array[1], 1);
+            case 6 : checkIfCellIsEmpty(array[1], 2);
+            case 7 : checkIfCellIsEmpty(array[2], 0);
+            case 8 : checkIfCellIsEmpty(array[2], 1);
+            case 9 : checkIfCellIsEmpty(array[2], 2);
         }
     }
 
+    int enterNextMove(){
+        int number = 0;
+        try{
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            String move = reader.readLine();
+            number = checkTheEnteredNumber(Integer.parseInt(move));
+        } catch (IOException e){
+            System.out.println("Ошибка ввода хода игроком");
+            e.printStackTrace();
+        }
+        return number;
+    }
+
     void checkIfCellIsEmpty(String[] massiv, int number) throws IOException {
-        checkWinCondition();
+//        checkWinCondition();
 
         if ( !massiv[number].equals(".") ) {
             System.out.println("Поле уже занято ! Повторите ход...");
@@ -46,45 +52,51 @@ public class GameClass {
             massiv[number] = "X";
 
         showGameResults();
-        playerMove();
+        computerMove();
     }
 
     void computerMove() throws IOException {
 //        checkWinCondition();
-
         System.out.println("Компьютер делает свой ход...");
+
         if (array[1][1].equals(".")) {
             array[1][1] = "O";
         }
 
         else if (array[0][0].equals(".") || array[0][2].equals(".") || array[2][0].equals(".") || array[2][2].equals(".")){
-            int random = new Random().nextInt(3);
-            switch(random){
-                case 0 -> array[0][0] = "O";
-                case 1 -> array[0][2] = "O";
-                case 2 -> array[2][0] = "O";
-                case 3 -> array[2][2] = "O";
-            }
+            System.out.println("1 else if");
+            UtilClass.computerCalculateMove();
+
         }
 
         else if (array[0][1].equals(".") || array[1][0].equals(".") || array[1][2].equals(".") || array[2][1].equals(".")){
+            System.out.println("2 else if");
             int random = new Random().nextInt(3);
             switch(random){
-                case 0 -> array[0][1] = "O";
-                case 1 -> array[1][0] = "O";
-                case 2 -> array[1][2] = "O";
-                case 3 -> array[2][1] = "O";
+                case 0 : array[0][1] = "O";
+                         return;
+                case 1 : array[1][0] = "O";
+                         return;
+                case 2 : array[1][2] = "O";
+                         return;
+                case 3 : array[2][1] = "O";
+                         return;
             }
         }
-
+        UtilClass.showGameResults();
         playerMove();
     }
 
-    int checkTheEnteredNumber(int number) throws IOException {
+    int checkTheEnteredNumber(int number) {
         if (number < 1 || number > 9) {
             System.out.println("Ход должен быть в диапазоне от 1 до 9");
             System.out.print("Введите свой ход: ");
-            playerMove();
+            try{
+                playerMove();
+            } catch (IOException e){
+                System.out.println("Ошибка в checkEnteredNumber");
+                e.printStackTrace();
+            }
         }
         return number;
     }
@@ -114,7 +126,7 @@ public class GameClass {
 
     void endOfGame() throws IOException {
         if (gameOver == true){
-            System.out.println("Игра закончена, игрок " + UtilClass.PLAYER1 + " победил");
+            System.out.println("Игра закончена, игрок " + PLAYER1 + " победил");
         }
         computerMove();
     }

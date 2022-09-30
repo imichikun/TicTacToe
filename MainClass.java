@@ -7,7 +7,7 @@ public class MainClass {
     static int[][] arrayMock = new int[][] { {1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     static String[][] array = new String[][] { {".", ".", "."}, {".", ".", "."}, {".", ".", "."}};
     static boolean gameOver = false;
-    static boolean player1Wins = true;
+    static String whoWins = "none";
 
     static String PLAYER1 = "";
     static String PLAYER2 = "Computer";

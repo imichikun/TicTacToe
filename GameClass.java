@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
-
 import static TicTacToe.MainClass.*;
 import static TicTacToe.UtilClass.showGameResults;
 
@@ -34,7 +33,12 @@ public class GameClass {
         try{
             reader = new BufferedReader(new InputStreamReader(System.in));
             String move = reader.readLine();
-            number = checkTheEnteredNumber(Integer.parseInt(move));
+            try{
+                number = checkTheEnteredNumber(Integer.parseInt(move));
+            } catch(NumberFormatException nfe){
+                System.out.println("Неправильно введён номер клетки, используйте цифры !");
+                playerMove();
+            }
         } catch (IOException e){
             System.out.println("Ошибка ввода хода игроком");
             e.printStackTrace();
@@ -174,11 +178,10 @@ public class GameClass {
             gameOver = true;
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if ( !array[i][j].equals("."))
-                    gameOver = true;
-            }
+        else if ( !array[0][0].equals(".") && !array[0][1].equals(".") && !array[0][2].equals(".") &&
+                !array[1][0].equals(".") && !array[1][1].equals(".") && !array[1][2].equals(".") &&
+                !array[2][0].equals(".") && !array[2][1].equals(".") && !array[2][2].equals(".") ) {
+            gameOver = true;
         }
 
         endOfGame();

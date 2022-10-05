@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class MainClass {
-    static int[][] arrayMock = new int[][] { {1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    static int[][] arrayDemo = new int[][] { {1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     static String[][] array = new String[][] { {".", ".", "."}, {".", ".", "."}, {".", ".", "."}};
     static boolean gameOver = false;
     static String whoWins = "none";
@@ -23,7 +23,7 @@ public class MainClass {
         System.out.println("Первому игроку, " + PLAYER1 + ", приготовиться!");
 
         System.out.println("Вы играете крестиками, сделайте свой ход на клетку от 1 до 9");
-        Arrays.stream(arrayMock).forEach(elem -> System.out.println(Arrays.toString(elem)));
+        Arrays.stream(arrayDemo).forEach(elem -> System.out.println(Arrays.toString(elem)));
 
         gameClass.playerMove();
     }

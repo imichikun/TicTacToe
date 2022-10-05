@@ -28,7 +28,7 @@ public class GameClass {
         }
     }
 
-    int enterNextMove(){
+    private int enterNextMove(){
         int number = 0;
         try{
             reader = new BufferedReader(new InputStreamReader(System.in));
@@ -46,15 +46,15 @@ public class GameClass {
         return number;
     }
 
-    int checkTheEnteredNumber(int number) {
+    private int checkTheEnteredNumber(int number) {
         if (number < 1 || number > 9) {
             System.out.println("Ход должен быть в диапазоне от 1 до 9");
-                enterNextMove();
-            }
+            enterNextMove();
+        }
         return number;
     }
 
-    void checkIfCellIsEmpty(String[] massiv, int number) {
+    private void checkIfCellIsEmpty(String[] massiv, int number) {
         if ( !massiv[number].equals(".") ) {
             System.out.println("Поле уже занято ! Повторите ход...");
             showGameResults();
@@ -66,7 +66,7 @@ public class GameClass {
         computerPriorityMove();
     }
 
-    void computerPriorityMove() {
+    private void computerPriorityMove() {
         checkWinCondition();
         System.out.println("Компьютер делает свой ход...");
 
@@ -76,84 +76,139 @@ public class GameClass {
             playerMove();
         }
 
-        int random = new Random().nextInt(3);
-
-        if (array[0][0].equals(".") || array[0][2].equals(".") || array[2][0].equals(".") || array[2][2].equals(".")) {
-            switch (random) {
-                case 0:
-                    if (!array[0][0].equals("."))
-                        computerPriorityMove();
-                    else {
-                        array[0][0] = "O";
-                        showGameResults();
-                        playerMove();
-                    }
-                case 1:
-                    if (!array[0][2].equals("."))
-                        computerPriorityMove();
-                    else {
-                        array[0][2] = "O";
-                        showGameResults();
-                        playerMove();
-                    }
-                case 2:
-                    if (!array[2][0].equals("."))
-                        computerPriorityMove();
-                    else {
-                        array[2][0] = "O";
-                        showGameResults();
-                        playerMove();
-                    }
-                case 3:
-                    if (!array[2][2].equals("."))
-                        computerPriorityMove();
-                    else {
-                        array[2][2] = "O";
-                        showGameResults();
-                        playerMove();
-                    }
+        for (int i = 0; i < 3; i++) {
+            if (array[i][0].equals(array[i][1]) && array[i][0].equals("X") && array[i][2].equals(".")) {
+                array[i][2] = "O";
+                showGameResults();
+                playerMove();
             }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (array[i][1].equals(array[i][2]) && array[i][1].equals("X") && array[i][0].equals(".")) {
+                array[i][0] = "O";
+                showGameResults();
+                playerMove();
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if (array[0][i].equals(array[1][i]) && array[0][i].equals("X") && array[2][i].equals(".")) {
+                array[2][i] = "O";
+                showGameResults();
+                playerMove();
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (array[1][i].equals(array[2][i]) && array[1][i].equals("X") && array[0][i].equals(".")) {
+                array[0][i] = "O";
+                showGameResults();
+                playerMove();
+            }
+        }
+
+        if (array[0][0].equals(array[1][1]) && array[0][0].equals("X") && array[2][2].equals(".")) {    // main diagonal
+            array[2][2] = "O";
+            showGameResults();
+            playerMove();
+        } else if (array[1][1].equals(array[2][2]) && array[1][1].equals("X") && array[0][0].equals(".")) {
+            array[0][0] = "O";
+            showGameResults();
+            playerMove();
+
+        } else if (array[2][0].equals(array[1][1]) && array[2][0].equals("X") && array[0][2].equals(".")) { // alteran diag
+            array[0][2] = "O";
+            showGameResults();
+            playerMove();
+        } else if (array[0][2].equals(array[1][1]) && array[0][2].equals("X") && array[2][0].equals(".")) {
+            array[2][0] = "O";
+            showGameResults();
+            playerMove();
         } else {
-            checkWinCondition();
-            computerPriorityMove2();
+            computerAlternativeMove();
         }
     }
 
-    void computerPriorityMove2(){
-        int random = new Random().nextInt(3);
-        switch(random){
-                case 0 : if ( !array[0][1].equals(".") )
-                                computerPriorityMove2();
-                         else {
-                                array[0][1] = "O";
-                                showGameResults();
-                                playerMove();
-                         }
-                case 1 : if ( !array[1][0].equals(".") )
-                                computerPriorityMove2();
-                         else {
-                                array[1][0] = "O";
-                                showGameResults();
-                                playerMove();
-                         }
-                case 2 : if ( !array[1][2].equals(".") )
-                                computerPriorityMove2();
-                         else {
-                                array[1][2] = "O";
-                                showGameResults();
-                                playerMove();
-                         }
-                case 3 : if ( !array[2][1].equals(".") )
-                                computerPriorityMove2();
-                         else {
-                                array[2][1] = "O";
-                                showGameResults();
-                                playerMove();
-                         }
-            }
-        }
+    private void computerAlternativeMove() {
+        int random = new Random().nextInt(8) + 1;
+        switch (random){
+            case 1:
+                if (!array[0][0].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[0][0] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 2:
+                if (!array[0][1].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[0][1] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 3:
+                if (!array[0][2].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[0][2] = "O";
+                    showGameResults();
+                    playerMove();
+                }
 
-    void checkWinCondition() {
+            case 4:
+                if (!array[1][0].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[1][0] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 5:
+                if (!array[1][1].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[1][1] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 6:
+                if (!array[1][2].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[1][2] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 7:
+                if (!array[2][0].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[2][0] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 8:
+                if (!array[2][1].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[2][1] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+            case 9:
+                if (!array[2][2].equals("."))
+                    computerAlternativeMove();
+                else {
+                    array[2][2] = "O";
+                    showGameResults();
+                    playerMove();
+                }
+        }
+    }
+
+
+    private void checkWinCondition() {
         for (int i = 0; i < 3; i++) {               // checking rows
             if(array[i][0].equals(array[i][1]) && array[i][1].equals(array[i][2]) && !array[i][2].equals(".")) {
                 whoWins = array[i][0];
@@ -187,7 +242,7 @@ public class GameClass {
         endOfGame();
     }
 
-    void endOfGame() {
+    private void endOfGame() {
         if (gameOver == true) {
             if (whoWins.equals("X")){
                 System.out.println("Игра закончена, игрок " + PLAYER1 + " победил");
